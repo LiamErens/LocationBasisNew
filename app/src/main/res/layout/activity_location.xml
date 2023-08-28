@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lat"
+        android:textSize="50sp"
+        android:gravity="center"
+        android:padding="5sp"
+        android:textStyle="bold"
+        android:hint="Lat: "/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Long"
+        android:textSize="50sp"
+        android:gravity="center"
+        android:padding="5sp"
+        android:textStyle="bold"
+        android:hint="Long: "
+        android:layout_below="@id/lat"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TimeStamp"
+        android:textSize="50sp"
+        android:gravity="center"
+        android:padding="5sp"
+        android:textStyle="bold"
+        android:hint="Time stamp: "
+        android:layout_below="@id/Long"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Address"
+        android:textSize="50sp"
+        android:gravity="center"
+        android:padding="5sp"
+        android:textStyle="bold"
+        android:hint="Address: "
+        android:layout_toRightOf="@id/lat"
+        android:layout_marginStart="400dp"/>
+
+
+
+
+
+</RelativeLayout>
