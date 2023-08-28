@@ -13,6 +13,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.locationbasisnew.RetrofitClient.API_KEY
+import java.sql.Timestamp
 
 class MainActivity : AppCompatActivity(), LocationListener {
     private lateinit var locationManager: LocationManager
@@ -61,5 +63,13 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
             }
         }
+    }
+
+    private fun fetchAddress(){
+        val timeStamp = Timestamp(System.currentTimeMillis()).time.toString()
+
+        RetrofitClient.locationInterface.getAddress(
+            API_KEY, timeStamp
+        )
     }
 }

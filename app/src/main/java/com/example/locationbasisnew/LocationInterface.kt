@@ -8,5 +8,6 @@ interface LocationInterface {
     @GET("reverse")
     fun getAddress(
         @Query("apikey") apiKey: String,
+        @Query("ts") timeStamp: String
     )
 }
