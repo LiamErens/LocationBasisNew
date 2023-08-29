@@ -14,8 +14,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.locationbasisnew.RetrofitClient.API_KEY
 import java.io.IOException
+import java.sql.Time
 import java.sql.Timestamp
 import java.util.Locale
 
@@ -24,9 +27,27 @@ class MainActivity : AppCompatActivity(), LocationListener {
     private lateinit var tvOutput : TextView
     private val locationPermissionCode =2
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var locationList: MutableList<com.example.locationbasisnew.Location>
+    private lateinit var locationAdapter: LocationAdapter
+
+    private lateinit var timeStamp: Time
+    private lateinit var addressText: String
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        recyclerView = findViewById(R.id.recyclerView)
+
+        locationList = mutableListOf() // Initialize an empty list
+
+        locationAdapter = LocationAdapter(locationList)
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = locationAdapter
+
         val button : Button =findViewById(R.id.btnLocation)
         button.setOnClickListener(){
             getLocation()
@@ -48,7 +69,6 @@ class MainActivity : AppCompatActivity(), LocationListener {
     }
 
     override fun onLocationChanged(location: Location) {
-        tvOutput = findViewById(R.id.lblOutput)
         tvOutput.text = "Latitude: \n${location.latitude}, Longitude: ${location.longitude}"
 
         // Call fetchAddress to convert latitude and longitude to an address
@@ -90,5 +110,11 @@ class MainActivity : AppCompatActivity(), LocationListener {
             e.printStackTrace()
             // Handle the exception, e.g., show an error message to the user
         }
+        // Create a LocationData object and add it to the list
+        val location = Location(latitude, longitude, timeStamp, addressText)
+        locationList.add(location)
+
+        // Notify the adapter that the data set has changed
+        locationAdapter.notifyDataSetChanged()
     }
 }

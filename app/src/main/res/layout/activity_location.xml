@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lat"
-        android:textSize="50sp"
+        android:textSize="20sp"
         android:gravity="center"
         android:padding="5sp"
         android:textStyle="bold"
@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Long"
-        android:textSize="50sp"
+        android:textSize="20sp"
         android:gravity="center"
         android:padding="5sp"
         android:textStyle="bold"
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/TimeStamp"
-        android:textSize="50sp"
+        android:textSize="20sp"
         android:gravity="center"
         android:padding="5sp"
         android:textStyle="bold"
@@ -36,16 +36,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Address"
-        android:textSize="50sp"
+        android:textSize="20sp"
         android:gravity="center"
         android:padding="5sp"
         android:textStyle="bold"
         android:hint="Address: "
         android:layout_toRightOf="@id/lat"
-        android:layout_marginStart="400dp"/>
-
-
-
-
-
+        android:layout_marginStart="200dp"/>
 </RelativeLayout>
