@@ -8,12 +8,15 @@ import android.location.LocationListener
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.telecom.Call
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.locationbasisnew.RetrofitClient.API_KEY
+import retrofit2.Callback
+import retrofit2.Response
 import java.sql.Timestamp
 
 class MainActivity : AppCompatActivity(), LocationListener {
@@ -47,6 +50,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
     override fun onLocationChanged(location: Location) {
         tvOutput= findViewById(R.id.lblOutput)
         tvOutput.text= "Latitude: \n" + location.latitude + ",Longitude: " + location.longitude
+        fetchAddress()
     }
 
     override fun onRequestPermissionsResult(
@@ -64,12 +68,26 @@ class MainActivity : AppCompatActivity(), LocationListener {
             }
         }
     }
-
-    private fun fetchAddress(){
+    private fun fetchAddress(latitude: Double, longitude: Double) {
         val timeStamp = Timestamp(System.currentTimeMillis()).time.toString()
 
         RetrofitClient.locationInterface.getAddress(
-            API_KEY, timeStamp
-        )
+            API_KEY, timeStamp, latitude, longitude
+        ).enqueue(object : Callback<AddressResponse> {
+            override fun onResponse(call: Call<AddressResponse>, response: Response<AddressResponse>) {
+                if (response.isSuccessful) {
+                    val address = response.body()?.formattedAddress
+                    tvOutput.text = "Address: $address"
+                } else {
+                    // Handle API call error
+                    Toast.makeText(this@MainActivity, "Error getting address", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<AddressResponse>, t: Throwable) {
+                // Handle network failure
+                Toast.makeText(this@MainActivity, "Network error", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }
