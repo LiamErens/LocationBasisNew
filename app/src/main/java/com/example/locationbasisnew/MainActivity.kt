@@ -3,21 +3,21 @@ package com.example.locationbasisnew
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.telecom.Call
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.locationbasisnew.RetrofitClient.API_KEY
-import retrofit2.Callback
-import retrofit2.Response
+import java.io.IOException
 import java.sql.Timestamp
+import java.util.Locale
 
 class MainActivity : AppCompatActivity(), LocationListener {
     private lateinit var locationManager: LocationManager
@@ -48,9 +48,11 @@ class MainActivity : AppCompatActivity(), LocationListener {
     }
 
     override fun onLocationChanged(location: Location) {
-        tvOutput= findViewById(R.id.lblOutput)
-        tvOutput.text= "Latitude: \n" + location.latitude + ",Longitude: " + location.longitude
-        fetchAddress()
+        tvOutput = findViewById(R.id.lblOutput)
+        tvOutput.text = "Latitude: \n${location.latitude}, Longitude: ${location.longitude}"
+
+        // Call fetchAddress to convert latitude and longitude to an address
+        fetchAddress(location.latitude, location.longitude)
     }
 
     override fun onRequestPermissionsResult(
@@ -69,25 +71,24 @@ class MainActivity : AppCompatActivity(), LocationListener {
         }
     }
     private fun fetchAddress(latitude: Double, longitude: Double) {
-        val timeStamp = Timestamp(System.currentTimeMillis()).time.toString()
+        val geocoder = Geocoder(this, Locale.getDefault())
 
-        RetrofitClient.locationInterface.getAddress(
-            API_KEY, timeStamp, latitude, longitude
-        ).enqueue(object : Callback<AddressResponse> {
-            override fun onResponse(call: Call<AddressResponse>, response: Response<AddressResponse>) {
-                if (response.isSuccessful) {
-                    val address = response.body()?.formattedAddress
-                    tvOutput.text = "Address: $address"
-                } else {
-                    // Handle API call error
-                    Toast.makeText(this@MainActivity, "Error getting address", Toast.LENGTH_SHORT).show()
-                }
-            }
+        try {
+            val addresses = geocoder.getFromLocation(latitude, longitude, 1)
 
-            override fun onFailure(call: Call<AddressResponse>, t: Throwable) {
-                // Handle network failure
-                Toast.makeText(this@MainActivity, "Network error", Toast.LENGTH_SHORT).show()
+            if (addresses != null && addresses.isNotEmpty()) {
+                val address = addresses[0]
+                val addressText = "${address.getAddressLine(0)}, ${address.locality}, ${address.adminArea}, ${address.countryName}"
+
+                // Now you can display the addressText in your TextView or wherever you want.
+                tvOutput.text = "Address: \n$addressText"
+            } else {
+                // Handle the case where no addresses were found
+                tvOutput.text = "No address found"
             }
-        })
+        } catch (e: IOException) {
+            e.printStackTrace()
+            // Handle the exception, e.g., show an error message to the user
+        }
     }
 }
