@@ -5,7 +5,7 @@ import java.sql.Time
 data class Location(
     val Longitude: Double,
     val Latitude: Double,
-    val TimeStamp: Time,
+    val TimeStamp: String,
     val Address: String
 )
 data class Address(

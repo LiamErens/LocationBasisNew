@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
     private lateinit var locationList: MutableList<com.example.locationbasisnew.Location>
     private lateinit var locationAdapter: LocationAdapter
 
-    private lateinit var timeStamp: Time
+    private lateinit var timeStamp: String
     private lateinit var addressText: String
 
 
@@ -40,8 +40,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         setContentView(R.layout.activity_main)
 
         recyclerView = findViewById(R.id.recyclerView)
-
-        locationList = mutableListOf() // Initialize an empty list
+        locationList = mutableListOf()
 
         locationAdapter = LocationAdapter(locationList)
 
@@ -98,21 +97,25 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
             if (addresses != null && addresses.isNotEmpty()) {
                 val address = addresses[0]
-                val addressText = "${address.getAddressLine(0)}, ${address.locality}, ${address.adminArea}, ${address.countryName}"
-
-                // Now you can display the addressText in your TextView or wherever you want.
-                tvOutput.text = "Address: \n$addressText"
+                addressText = "${address.getAddressLine(0)}, ${address.locality}, ${address.adminArea}, ${address.countryName}"
             } else {
                 // Handle the case where no addresses were found
-                tvOutput.text = "No address found"
+                addressText = "No address found"
             }
         } catch (e: IOException) {
             e.printStackTrace()
             // Handle the exception, e.g., show an error message to the user
         }
-        // Create a LocationData object and add it to the list
-        val location = Location(latitude, longitude, timeStamp, addressText)
-        locationList.add(location)
+
+        // Get the current timestamp
+        val currentTimeStamp = Timestamp(System.currentTimeMillis())
+        timeStamp = currentTimeStamp.toString()
+
+        // Create a LocationData object
+        val locationData = Location(latitude, longitude, timeStamp, addressText)
+
+        // Add the location data to the list
+        locationList.add(locationData)
 
         // Notify the adapter that the data set has changed
         locationAdapter.notifyDataSetChanged()
