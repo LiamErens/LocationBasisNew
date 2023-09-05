@@ -1,18 +1,16 @@
 package com.example.locationbasisnew
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class LocationAdapter(private val locationList: List<Location>) :
+class LocationAdapter(private val locationList: List<LocationData>) :
     RecyclerView.Adapter<LocationAdapter.LocationViewHolder>() {
 
     class LocationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textLatitude: TextView = itemView.findViewById(R.id.lat)
         val textLongitude: TextView = itemView.findViewById(R.id.Long)
-        val textTimestamp: TextView = itemView.findViewById(R.id.TimeStamp)
         val textAddress: TextView = itemView.findViewById(R.id.Address)
     }
 
@@ -24,10 +22,9 @@ class LocationAdapter(private val locationList: List<Location>) :
 
     override fun onBindViewHolder(holder: LocationViewHolder, position: Int) {
         val locationData = locationList[position]
-        holder.textLatitude.text = "Latitude: ${locationData.Latitude}"
-        holder.textLongitude.text = "Longitude: ${locationData.Longitude}"
-        holder.textTimestamp.text = "Timestamp: ${locationData.TimeStamp}"
-        holder.textAddress.text = "Address: ${locationData.Address}"
+        holder.textLatitude.text = "Latitude: ${locationData.latitude}"
+        holder.textLongitude.text = "Longitude: ${locationData.longitude}"
+        holder.textAddress.text = "Address: ${locationData.address}"
     }
 
     override fun getItemCount(): Int {

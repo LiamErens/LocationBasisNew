@@ -22,20 +22,24 @@
         android:textStyle="bold"
         android:hint="Long: "
         android:layout_below="@id/lat"/>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/TimeStamp"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:padding="5sp"
-        android:textStyle="bold"
-        android:hint="Time stamp: "
-        android:layout_below="@id/Long"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/Address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Long"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="0dp"
+        android:gravity="center"
+        android:hint="Time stamp: "
+        android:padding="5sp"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Timestamp"
         android:textSize="20sp"
         android:gravity="center"
         android:padding="5sp"
