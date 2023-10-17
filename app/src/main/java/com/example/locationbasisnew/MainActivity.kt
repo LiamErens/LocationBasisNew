@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     override fun onLocationChanged(location: Location) {
 
-        // Call fetchAddress to convert latitude and longitude to an address
+        
 
         fetchAddress(location.latitude, location.longitude)
     }
@@ -123,13 +123,13 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 }
 
                 try {
-                    val jsonObject = JSONObject(responseBody)  // Parse the JSON response
-                    val featuresArray = jsonObject.getJSONArray("features")  // Get the "features" array
+                    val jsonObject = JSONObject(responseBody)  
+                    val featuresArray = jsonObject.getJSONArray("features")  
 
                     if (featuresArray.length() > 0) {
-                        val firstFeature = featuresArray.getJSONObject(0)  // Get the first feature object
-                        val properties = firstFeature.getJSONObject("properties")  // Get the "properties" object
-                        val addressText = properties.getString("formatted")  // Get the "formatted" address
+                        val firstFeature = featuresArray.getJSONObject(0)  
+                        val properties = firstFeature.getJSONObject("properties") 
+                        val addressText = properties.getString("formatted") 
 
                         // Create a LocationData instance with the retrieved data
                         val newLocationData = LocationData(latitude, longitude, addressText)
@@ -137,12 +137,10 @@ class MainActivity : AppCompatActivity(), LocationListener {
                         // Add the newLocationData to the locationList
                         locationList.add(newLocationData)
 
-                        // Notify the adapter of the data change
                         runOnUiThread {
                             locationAdapter.notifyDataSetChanged()
                         }
                     } else {
-                        // Handle the case where no address was found
                         runOnUiThread {
                             Toast.makeText(
                                 this@MainActivity,
@@ -152,7 +150,6 @@ class MainActivity : AppCompatActivity(), LocationListener {
                         }
                     }
                 } catch (e: JSONException) {
-                    // Handle JSON parsing exception
                     Log.e(TAG, "JSON parsing error: ${e.message}")
                     runOnUiThread {
                         Toast.makeText(this@MainActivity, "Error parsing JSON", Toast.LENGTH_SHORT)
